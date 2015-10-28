@@ -1,0 +1,47 @@
+body {
+    background-color: gray;
+    background-size: 100% 550px;
+    background-repeat: no-repeat;
+}
+
+.fet{
+  background-image: url('/static/images/div_bg.jpg');
+  background-size: 100% 600px;
+  background-repeat: no-repeat;
+
+}
+
+.enq{
+  background-image: url('/static/images/enq.jpg');
+  background-size: 100% 100px;
+  background-repeat: no-repeat;
+
+}
+
+
+.navbar-custom{
+  background-color:gray;
+  background-image: none;
+  background-repeat: no-repeat;
+ }
+
+ .Row
+{
+    display: table;
+    width: 100%; /*Optional*/
+    table-layout: relative; /*Optional*/
+    border-spacing: 10px; /*Optional*/
+}
+.Column
+{
+    display: table-cell;
+    text-align: center;
+   
+}
+.services {
+    display: block;
+    background: rgba(255, 255, 255, 0.5) none repeat scroll 0% 0%;
+    color: #4E4285;
+    border: 2px solid #4E4285;
+    border-radius: 5px;
+}

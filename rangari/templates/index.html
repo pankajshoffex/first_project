@@ -1,0 +1,612 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Rangare9</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap-theme.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/datepicker.css' %}" rel="stylesheet">
+    <link href="{% static 'css/timepicki.css' %}" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+  </head>
+  <body role="document">
+    <!-- <h1>Hello, world!</h1> -->
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#" style="font-size: 41px;"><span style="color:red;">R</span><span style="color:orange;font-family: 'Times New Roman', Times, serif;">Angari</span><span style="color:red;"> 9</span></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+          <li>
+          <!-- <form  method="POST"> -->
+          <div class="navbar-form">
+            <div class="form-group" style="background-color:white;border-radius:10px;">
+            <div class="left-inner-addon">
+              <i class="glyphicon glyphicon-map-marker"> </i>
+              <select type="" class="form-control" id="loc" name="loc">
+                <option>Mumbai</option>
+                <option>Pune</option>
+                <option>Navi Mumbai</option>
+              </select>
+            </div>
+            </div>
+            <div class="form-group">
+              <select class="form-control" id="serv" name="serv">
+                <option value="select">What service are you looking for?</option>
+                <option>Waterproofing</option>
+                <option>Painting</option>
+                <option>Electrician</option>
+                <option>Carpet Spa</option>
+                <option>Four Ceiling</option>
+                <option>Plumbing Service</option>
+              </select>
+              <div id="serv-error" style="color:red;background-color:white;"></div>
+            </div>
+            <button class="btn btn-success" id="sub" >Enquiry</button>
+            <input type="hidden" id="enquiry-open" data-toggle="modal" data-target="#enquiry-dialog">
+          </div>
+          <!-- </form> -->
+          </li>
+          <li>            
+            <a href="javascript:void(0);" data-toggle="modal" data-target="#login-dialog">Login</a>
+          </li>
+          <li>            
+            <a href="javascript:void(0);" data-toggle="modal" data-target="#signup-dialog">Sign Up</a>
+          </li>
+          </ul>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid" style="margin-top:50px;">
+    <!-- Social Side Bar -->
+      <nav id="social-sidebar">
+
+      <ul>
+
+        <li>
+          <a href="https://twitter.com/m412c0b" class="entypo-twitter" target="_blank">
+            <img style="height:48px;width:48px;" src="{% static 'images/twitter.png' %}">
+            <span>Twitter</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="http://dribbble.com/m412c0" class="entypo-dribbble" target="_blank">
+            <img style="height:48px;width:48px;" src="{% static 'images/google.png' %}">
+            <span>Google+</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="http://www.behance.net/m412c0" class="entypo-behance" target="_blank">
+            <img style="height:48px;width:48px;" src="{% static 'images/fb.png' %}">
+            <span>Facebook</span>
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
+    <!-- Social Side Bar End -->
+
+    <!-- Enquiry Dialog box -->
+     <!-- Modal -->
+    <div class="modal fade" id="enquiry-dialog" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Enquiry</h4>
+          </div>
+          <div class="modal-body">
+             <form role="form" id="myform" method="post" action="">
+             {% csrf_token %}
+                 <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="datepicker">Date:</label>
+                        <div class="left-inner-addon-enquiry">
+                          <i class="glyphicon glyphicon-calendar"> </i>
+                          <input type="text" class="form-control" id="datepicker">
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="time">Time:</label>
+                      <input type="text" class="form-control" id="time" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="fname">First Name:</label>
+                      <div class="left-inner-addon-enquiry">
+                        <i class="glyphicon glyphicon-user"> </i>
+                        <input type="text" class="form-control" id="fname">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="lname">Last Name:</label>
+                      <input type="text" class="form-control" id="lname">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="mobile">Mobile No:</label>
+                      <div class="left-inner-addon-enquiry">
+                        <i class="glyphicon glyphicon-phone"> </i>
+                        <input type="text" class="form-control" id="mobile">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="address">Address:</label>
+                      <div class="left-inner-addon-enquiry">
+                        <i class="glyphicon glyphicon-home"> </i>
+                        <input type="text" class="form-control" id="address">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="landmark">Landmark:</label>
+                      <div class="left-inner-addon-enquiry">
+                        <i class="glyphicon glyphicon-tree-conifer"> </i>
+                        <input type="text" class="form-control" id="landmark">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="pincode">Pincode:</label>
+                      <div class="left-inner-addon-enquiry">
+                        <i class="glyphicon glyphicon-map-marker"> </i>
+                        <input type="text" class="left form-control" id="pincode">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <button type="submit" class="btn btn-primary form-control">Book Service</button>
+                  </div>
+                </div>
+              </form>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <!-- Enquiry Dialog box end -->
+
+    <!-- Login Dialog box -->
+     <!-- Modal -->
+    <div class="modal fade" id="login-dialog" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">LOGIN</h4>
+          </div>
+          <div class="modal-body">
+             <form role="form">
+              <div class="form-group">
+                <label for="email">Email address:</label>
+                 <div class="left-inner-addon-enquiry">
+                    <i class="glyphicon glyphicon-envelope"> </i>
+                    <input type="email" class="form-control" id="email">
+                 </div>
+              </div>
+              <div class="form-group">
+                <label for="pwd">Password:</label>
+                <div class="left-inner-addon-enquiry">
+                  <i class="glyphicon glyphicon-lock"> </i>
+                  <input type="password" class="form-control" id="pwd">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <!-- Login Dialog box end -->
+
+    <!-- signup Dialog box -->
+     <!-- Modal -->
+    <div class="modal fade" id="signup-dialog" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">SIGN-UP</h4>
+          </div>
+          <div class="modal-body">
+              <form role="form" id="myform">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="fname">First Name:</label>
+                      <div class="left-inner-addon-enquiry">
+                        <i class="glyphicon glyphicon-user"> </i>
+                        <input type="text" class="form-control" id="fname">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="lname">Last Name:</label>
+                      <input type="text" class="form-control" id="lname">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="mobile">Mobile No:</label>
+                      <div class="left-inner-addon-enquiry">
+                        <i class="glyphicon glyphicon-phone"> </i>
+                        <input type="text" class="form-control" id="mobile">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="email">Email ID:</label>
+                      <div class="left-inner-addon-enquiry">
+                        <i class="glyphicon glyphicon-envelope"> </i>
+                        <input type="email" class="form-control" id="email">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="password">Password:</label>
+                      <div class="left-inner-addon-enquiry">
+                        <i class="glyphicon glyphicon-lock"> </i>
+                        <input type="password" class="form-control" id="password" name="password">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="password_again">Confirm Password:</label>
+                      <div class="left-inner-addon-enquiry">
+                        <i class="glyphicon glyphicon-eye-open"> </i>
+                        <input type="password" class="left form-control" id="password_again" name="
+                        password_again">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <button type="submit" class="btn btn-primary form-control">Sign Up</button>
+                  </div>
+                </div>
+              </form>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <!-- signup Dialog box end -->
+
+
+      <div class="row">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel"> 
+        <!-- Indicators -->
+          <div class="carousel-inner">
+            <div class="item active"> <img  src="{% static 'images/3.jpg' %}" alt="First slide">
+              <div class="container">
+                <div class="carousel-caption">
+                  <h1> Headling 1 </h1>
+                  <p> Description 1</p>
+                </div>
+              </div>
+            </div>
+            <div class="item"> <img src="{% static 'images/2.jpg' %}" data-src="" alt="Second slide">
+              <div class="container">
+                <div class="carousel-caption">
+                  <h1>
+                  Headling 2
+                  </h1>
+                  <p> Description 2</p>
+                </div>
+              </div>
+            </div>
+            <div class="item"> <img src="{% static 'images/1.jpg' %}" data-src="" alt="Third slide">
+              <div class="container">
+                <div class="carousel-caption">
+                  <h1>
+                  Headling 3
+                  </h1>
+                  <p> Description 3</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="left carousel-control" style="height:22%;margin-top:15%" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#myCarousel" style="height:22%;margin-top:15%" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+          <div><h3>SERVICES</h3></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+          <a class="services" href="#">
+      <img src="{% static 'images/orgwt1.png' %} " height="150" width="150" alt="Waterproofing" title="Waterproofing">
+      <h4>Waterproofing<br> Service</h4></a>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+          <a class="services" href="#">
+      <img src="{% static 'images/Paints.png' %} " height="150" width="150" alt="Waterproofing" title="Waterproofing">
+      <h4>Painting<br> Service</h4></a>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+          <a class="services" href="#">
+      <img src="{% static 'images/spa.jpeg' %} " height="150" width="150" alt="Waterproofing" title="Waterproofing">
+      <h4>Carpet Spa<br> Service</h4></a>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+          <div><h3>WHY RANGARI9</h3></div>
+        </div>
+      </div>
+      <div class="row" style="background: transparent url('/static/images/bg.jpg') no-repeat fixed center /cover; padding-bottom:20px;">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+          <img src="{% static 'images/on_time.png' %} " height="150" width="150">
+          <h4>On Time Service</h4>
+
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+          <img src="{% static 'images/painting.gif' %} " height="150" width="150">
+          <h4>Fully Automated Painting using Machine</h4>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+          <img src="{% static 'images/money_back.PNG' %} " height="150" width="150">
+          <h4>Money Back Guarantee</h4>
+         </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+          <img src="{% static 'images/home.png' %} " height="150" width="150">
+          <h4>Home Security</h4>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+          <img src="{% static 'images/mnp.jpg' %} " height="150" width="150">
+          <h4>Professional Team</h4>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+          <img src="{% static 'images/reliable.png' %} " height="150" width="150">
+          <h4>Reliable And Transparent</h4>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+          <img src="{% static 'images/bgcheck.PNG' %} " height="150" width="150">
+          <h4>Background Checked</h4>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+         <img src="{% static 'images/bgcheck.PNG' %} " height="150" width="150">
+          <h4>Well Uniformed</h4>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="text-align:center;">
+        <img src="{% static 'images/price.gif' %} " height="150" width="150">
+        <h4>Standardised Pricing</h4>
+        </div>
+      </div>
+
+      <div class="row" style="background: transparent url('/static/images/plain.jpg') no-repeat fixed center /cover; padding-bottom:20px;">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="text-align:center;">
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="text-align:center;">
+          <h3>Our Products</h3>
+            <div id="carousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                  <div class="item active">
+                      <img src="http://placehold.it/350x250/e8117f/fff&amp;text=Product+Main">
+                  </div>
+                  <div class="item">
+                      <img src="http://placehold.it/350x250/00ffff/000&amp;text=Product+Image+2">
+                  </div>
+                  <div class="item">
+                      <img src="http://placehold.it/350x250/ff00ff/fff&amp;text=Product+Image+3">
+                  </div>
+                  <div class="item">
+                      <img src="http://placehold.it/350x250/ffff00/000&amp;text=Product+Image+4">
+                  </div>
+                  <div class="item">
+                      <img src="http://placehold.it/350x250/612b65/fff&amp;text=Product+Image+5">
+                  </div>
+                  <div class="item">
+                      <img src="http://placehold.it/350x250/00ffff/000&amp;text=Product+Image+6">
+                  </div>
+                  <div class="item">
+                      <img src="http://placehold.it/350x250/db371b/fff&amp;text=Product+Image+7">
+                  </div>
+                  <div class="item">
+                      <img src="http://placehold.it/350x250/feb8aa/000&amp;text=Product+Image+8">
+                  </div>
+              </div>
+          </div> 
+            <div class="clearfix">
+                <div id="thumbcarousel" class="carousel slide" data-interval="false">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div data-target="#carousel" data-slide-to="0" class="thumb"><img src="http://placehold.it/100/e8117f/fff&amp;text=Product+Main"></div>
+                            <div data-target="#carousel" data-slide-to="1" class="thumb"><img src="http://placehold.it/100/00ffff/000&amp;text=Product+Image+2"></div>
+                            <div data-target="#carousel" data-slide-to="2" class="thumb"><img src="http://placehold.it/100/ff00ff/fff&amp;text=Product+Image+3"></div>
+                            <div data-target="#carousel" data-slide-to="3" class="thumb"><img src="http://placehold.it/100/ffff00/000&amp;text=Product+Image+4"></div>
+                        </div><!-- /item -->
+                        <div class="item">
+                            <div data-target="#carousel" data-slide-to="4" class="thumb"><img src="http://placehold.it/100/612b65/fff&amp;text=Product+Image+5"></div>
+                            <div data-target="#carousel" data-slide-to="5" class="thumb"><img src="http://placehold.it/100/00ffcc/000&amp;text=Product+Image+6"></div>
+                            <div data-target="#carousel" data-slide-to="6" class="thumb"><img src="http://placehold.it/100/db371b/fff&amp;text=Product+Image+7"></div>
+                            <div data-target="#carousel" data-slide-to="7" class="thumb"><img src="http://placehold.it/100/feb8aa/000&amp;text=Product+Image+8"></div>
+                        </div><!-- /item -->
+                    </div><!-- /carousel-inner -->
+                    <a class="left carousel-control" href="#thumbcarousel" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#thumbcarousel" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div> <!-- /thumbcarousel -->
+            </div><!-- /clearfix -->
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="text-align:center;">
+        </div>
+      </div>
+      <div class="row" style="background-image:url('{% static 'images/ff.jpg' %}'); text-align:center;">
+      <h3><u>What our customer says!!!</u></h3>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+          <img src="{% static 'images/home11.jpg' %}" width="350px" height="200px" style="border:5px solid black">
+          <br>
+          <h5>Such a greate work Gyu's!! Thank you so much!!!</h5>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+          <img src="{% static 'images/home2.jpg' %}" width="350px" height="200px" style="border:5px solid black">
+          <br>
+          <h5>This is like my dream house!!! <br> Thanks Rangari9 team!!</h5>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+          <img src="{% static 'images/home33.jpg' %}" width="350px" height="200px" style="border:5px solid black">
+          <br>
+          <h5>WOW! this is fantastic design!<br> This is like film house. <br> Superb Work!!</h5>
+        </div>
+
+      </div>
+    </div>
+    <!-- Main containr End -->
+    <div class="container-fluid" style="background-color:#333333;color:#cccccc;">
+      <div class="row" style="text-align:center;">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+          <div>
+            <h4>Address</h4>
+            <h5>Office No-13, Second floor, Indraneel Apartment,
+                Opposit Sharda Acrade, Besides Baasuri Hotel,
+                Near D-Mart, Pune Satara Road,
+                Ashwamedh Nagar, Pune-411009.</h5>
+          </div>
+          <div>
+            <h4>Contact</h4>
+            <h5>+91 9158685500</h5>
+          </div>
+          <div>
+            <h4>Email</h4>
+            <h5>sotari.biz@gmail.com</h5>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+          <div>
+            <h4>About us</h4>
+            <h5>We provide all exterior waterproof paint (only Bungalows) and interior paint applications. We provide all waterproofing applications to vertical wall surfaces.</h5>
+            <img src="{% static 'images/logo.png' %}" style="width:50%;height:auto;">
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+          <div>
+            <h4>Social</h4>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="text-align:center;border-top:1px solid #cccccc;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <span><b>Copyright &copy; Rangari9, 2015. All rights reserved.</b></span>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'js/timepicki.js' %}"></script>
+<script>
+// just for the demos, avoids form submit
+jQuery.validator.setDefaults({
+  debug: true,
+  success: "valid"
+});
+$( "#myform" ).validate({
+  rules: {
+    password: "required",
+    password_again: {
+      equalTo: "#password"
+    }
+  }
+});
+</script>
+<script>
+  $(document).ready(function(){
+    $("#sub").click(function(){
+      if ($("#serv").val() === "select") {
+        $("#serv-error").html("Please select service");
+      }
+      else{
+        $("#serv-error").html("");
+        $("#enquiry-open").click();
+      }
+    });
+   $('#datepicker').datepicker({
+        format: "dd/mm/yyyy"
+    });
+    $('#time').timepicki();  
+  });
+</script>
+<script>
+ 
+</script>
+  </body>
+</html>
